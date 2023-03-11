@@ -33,7 +33,7 @@ server.get("/api/users", async (req, res) => {
     res.status(200).json({ message: "Success fetching users", data: allUsers });
   } catch (err) {
     res.status(500).json({
-      message: `Error fetching users: ${err.message}`,
+      message: "The users information could not be retrieved",
     });
   }
 });
@@ -44,14 +44,14 @@ server.get("/api/users/:id", async (req, res) => {
     const getUser = await model.findById(id);
     if (!getUser) {
       res.status(404).json({
-        message: `User cannot be found with id of ${id}`,
+        message: "The user with the specified ID does not exist",
       });
     } else {
       res.status(200).json(getUser);
     }
   } catch (err) {
     res.status(500).json({
-      message: `Error fetching user: ${err.message}`,
+      message: "The user information could not be retrieved",
     });
   }
 });
@@ -61,7 +61,9 @@ server.delete("/api/users/:id", async (req, res) => {
   try {
     const deleteUser = await model.remove(id);
     if (!deleteUser) {
-      res.status(404).json({ message: `cannot find user ${id} to delete` });
+      res
+        .status(404)
+        .json({ message: "The user with the specified ID does not exist" });
     } else {
       res.json({
         message: "user deleted",
@@ -70,7 +72,7 @@ server.delete("/api/users/:id", async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({
-      message: `Error deleting user: ${err.message}`,
+      message: "The user could not be removed",
     });
   }
 });
