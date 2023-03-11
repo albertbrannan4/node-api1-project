@@ -83,18 +83,24 @@ server.put("/api/users/:id", async (req, res) => {
   try {
     const updateUser = await model.update(id, { bio, name });
     if (!bio || !name) {
-      res.status(404).json({
-        message: "Submission does not fulfill the requirements",
+      res.status(400).json({
+        message: "Please provide name and bio for the user",
       });
     } else {
-      res.status(200).json({
-        message: "User update successful",
-        data: updateUser,
-      });
+      if (!updateUser) {
+        res.status(404).json({
+          message: "The user with the specified ID does not exist",
+        });
+      } else {
+        res.status(200).json({
+          message: "User update successful",
+          data: updateUser,
+        });
+      }
     }
   } catch (err) {
     res.status(500).json({
-      message: `Error updating user: ${err.message}`,
+      message: "The user information could not be modified",
     });
   }
 });
