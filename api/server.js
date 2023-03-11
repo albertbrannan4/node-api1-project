@@ -75,4 +75,26 @@ server.delete("/api/users/:id", async (req, res) => {
   }
 });
 
+server.put("/api/users/:id", async (req, res) => {
+  const { id } = req.params;
+  const { bio, name } = req.body;
+  try {
+    const updateUser = await model.update(id, { bio, name });
+    if (!bio || !name) {
+      res.status(404).json({
+        message: "Submission does not fulfill the requirements",
+      });
+    } else {
+      res.status(200).json({
+        message: "User update successful",
+        data: updateUser,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: `Error updating user: ${err.message}`,
+    });
+  }
+});
+
 module.exports = server; // EXPORT YOUR SERVER instead of {}
