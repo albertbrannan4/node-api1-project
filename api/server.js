@@ -38,4 +38,22 @@ server.get("/api/users", async (req, res) => {
   }
 });
 
+server.get("/api/users/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const getUser = await model.findById(id);
+    if (!getUser) {
+      res.status(404).json({
+        message: `User cannot be found with id of ${id}`,
+      });
+    } else {
+      res.status(200).json(getUser);
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: `Error fetching user: ${err.message}`,
+    });
+  }
+});
+
 module.exports = server; // EXPORT YOUR SERVER instead of {}
