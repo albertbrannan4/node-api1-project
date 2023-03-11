@@ -10,8 +10,8 @@ server.post("/api/users", async (req, res) => {
   const { name, bio } = req.body;
   try {
     if (!name || !bio) {
-      res.status(422).json({
-        message: "Name and Bio is needed to create user",
+      res.status(400).json({
+        message: "Please provide name and bio for the user",
       });
     } else {
       const createUser = await model.insert({ name, bio });
@@ -22,7 +22,7 @@ server.post("/api/users", async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({
-      message: `Error creating new user: ${err.message}`,
+      message: "There was an error while saving the user to the database",
     });
   }
 });
