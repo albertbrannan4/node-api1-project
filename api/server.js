@@ -15,10 +15,7 @@ server.post("/api/users", async (req, res) => {
       });
     } else {
       const createUser = await model.insert({ name, bio });
-      res.status(201).json({
-        message: "Success creating new user",
-        data: createUser,
-      });
+      res.status(201).json(createUser);
     }
   } catch (err) {
     res.status(500).json({
@@ -30,7 +27,7 @@ server.post("/api/users", async (req, res) => {
 server.get("/api/users", async (req, res) => {
   try {
     const allUsers = await model.find();
-    res.status(200).json({ message: "Success fetching users", data: allUsers });
+    res.status(200).json(allUsers);
   } catch (err) {
     res.status(500).json({
       message: "The users information could not be retrieved",
@@ -65,10 +62,7 @@ server.delete("/api/users/:id", async (req, res) => {
         .status(404)
         .json({ message: "The user with the specified ID does not exist" });
     } else {
-      res.json({
-        message: "user deleted",
-        data: deleteUser,
-      });
+      res.json(deleteUser);
     }
   } catch (err) {
     res.status(500).json({
@@ -92,10 +86,7 @@ server.put("/api/users/:id", async (req, res) => {
           message: "The user with the specified ID does not exist",
         });
       } else {
-        res.status(200).json({
-          message: "User update successful",
-          data: updateUser,
-        });
+        res.status(200).json(updateUser);
       }
     }
   } catch (err) {
