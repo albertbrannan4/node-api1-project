@@ -1,10 +1,12 @@
 // BUILD YOUR SERVER HERE
 const express = require("express");
 const model = require("./users/model");
+const cors = require("cors");
 const server = express();
 
 //Global middleware
 server.use(express.json());
+server.use(cors());
 
 server.post("/api/users", async (req, res) => {
   const { name, bio } = req.body;
